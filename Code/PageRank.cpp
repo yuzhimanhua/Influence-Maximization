@@ -8,17 +8,17 @@
 //#include <windows.h>
 using namespace std;
 
-#define NODE 16000
-#define EDGE 130000
+#define NODE 40000
+#define EDGE 500000
 #define TOPK 20
-#define T    10
+#define T    10000
 
 FILE* fp;
 FILE* fout;
 
 struct edge
 {
-	int v,next;
+	int v, next;
 };
 edge E[EDGE];
 
@@ -28,24 +28,19 @@ int firstedge[NODE] = {0},
     seed[TOPK] = {0},
     nb[NODE] = {0};
 bool visit[NODE] = {0};
-int n,m,K;
+int n, m, K;
 float delta[NODE] = {0};
 
-float marg[NODE] = {0};
-struct myless
-{
-    bool operator()(int x,int y){
-	    return marg[x] < marg[y];
-    }
-};
-bool cur[NODE];
-priority_queue <int, vector<int>, myless> PQ;
+double pr[NODE] = {0},
+       pr2[NODE] = {0},
+       deltap = 1e-8,
+       cc = 0.9; 
 
 void GenerateThreshold()
 {
     for (int i = 0; i < n; i++){
         delta[i] = (float)rand()/RAND_MAX;
-          delta[i] = sqrt(delta[i]);
+        //delta[i] = delta[i]*delta[i];
     }
 }
 
@@ -58,7 +53,7 @@ int Simulate(int topk)
 	
 	memset(visit,0,sizeof(visit));
 	memset(nb,0,sizeof(nb));
-	for (i = 0; i < topk; i++){
+	for (i = 0;i < topk; i++){
 	    Q.push(seed[i]);
 	    visit[seed[i]] = 1;
 	    tot++;
@@ -80,14 +75,38 @@ int Simulate(int topk)
 	return tot;
 }
 
+void PageRank()
+{
+	int x,tf;
+	while (1){
+		for (int i = 0; i < n; i++){
+		    pr2[i] = (1-cc)/n;
+		}
+		for (int i = 0; i < n; i++)
+		    for (int j = firstedge[i]; j != 0; j = E[j].next){
+			    x = E[j].v;
+			    pr2[x] += cc*pr[i]/deg[i];
+		    }
+		tf = 0;
+		for (int i = 0; i < n; i++)
+		    if (abs(pr[i]-pr2[i]) > deltap){
+		    	tf = 1;
+		    	break;
+		    }
+		if (!tf) break;
+		for (int i = 0; i < n; i++) pr[i] = pr2[i];
+	}
+}
+
 int main()
 {
 	int x,y,maxj,
-	    tot = 0;
-	float maxd,
-	      totnum = 0;
-	fp = fopen("NetHept.txt","r");
-	fout = fopen("HeptoutLF.txt","w");
+	    tot=0;
+	double maxd = 0,
+	       totnum = 0;
+
+	fp = fopen("GrQc.txt","r");
+	fout = fopen("GrQcoutPR2.txt","w");
     srand(time(NULL));
     
     time_t start,end;
@@ -108,38 +127,22 @@ int main()
 		firstedge[y] = tot;
 		deg[y]++;
 	}
+	printf("%d %d\n",n,tot);
 	fclose(fp);
 	
-	memset(choose,0,sizeof(choose));
+	for (int i = 0; i < n; i++) pr[i] = (double)1/n;
+	PageRank();
 	
-	for (int i = 0; i < n; i++){
-	    marg[i] = NODE+1;
-	    PQ.push(i);
-	}
-		
 	for (int i = 1; i <= TOPK; i++){
-	    memset(cur,0,sizeof(cur));
-	    while (1){
-	    	maxj = PQ.top();
-	    	PQ.pop();
-	    	maxd = marg[maxj];
-	    	if (cur[maxj]){
-	    		seed[i-1] = maxj;
-		        fprintf(fout,"%d %f\n",maxj,maxd);
-		        break;
-	    	}
-	    	else {
-	    		seed[i-1] = maxj;
-		        totnum = 0;
-		        for (int u = 1; u <= T; u++){
-		            GenerateThreshold();
-		            totnum += Simulate(i)-Simulate(i-1);
-	            }
-	            marg[maxj] = totnum/T;
-	            cur[maxj] = 1;
-	            PQ.push(maxj);
-	    	}
-	    }
+		maxd = 0; 
+		for (int j = 0; j < n; j++)
+		    if (pr[j] > maxd){
+		        maxd = pr[j];
+		        maxj = j;
+		    }
+		pr[maxj] = 0;
+		seed[i-1] = maxj;
+		cout<<maxd<<' '<<maxj<<endl;
 	}
 	
 	end = clock();

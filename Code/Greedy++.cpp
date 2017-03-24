@@ -18,7 +18,7 @@ FILE* fout;
 
 struct edge
 {
-	int v,next;
+	int v, next;
 };
 edge E[EDGE];
 
@@ -28,7 +28,7 @@ int firstedge[NODE] = {0},
     seed[TOPK] = {0},
     nb[NODE] = {0};
 bool visit[NODE] = {0};
-int n,m,K;
+int n, m, K;
 float delta[NODE][SNAP] = {0};
 float delta0[NODE] = {0};
 

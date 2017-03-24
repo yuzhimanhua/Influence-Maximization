@@ -5,10 +5,11 @@
 #include <stdlib.h>
 #include <iostream>
 //#include <windows.h>
+#include <math.h>
 using namespace std;
 
-#define NODE 50000
-#define EDGE 1000000
+#define NODE 80000
+#define EDGE 600000
 #define TOPK 20
 #define T    10000
 
@@ -17,36 +18,36 @@ FILE* fout;
 
 struct edge
 {
-	int v,next;
+	int v, next;
 };
 edge E[EDGE];
 
 int firstedge[NODE] = {0},
     deg[NODE] = {0},
-    choose[NODE] = {0},
+    deg1[NODE] = {0},
     seed[TOPK] = {0},
-    nb[NODE]={0};
+    nb[NODE] = {0};
 bool visit[NODE] = {0};
-int n,m,K;
+int n, m, K;
 float delta[NODE] = {0};
 
 void GenerateThreshold()
 {
     for (int i = 0; i < n; i++){
-        delta[i] = (float)rand()/RAND_MAX;
+        delta[i] = (float)rand()/RAND_MAX;  //Linear Threshold
     }
 }
 
-int Simulate(int topk)
+int Simulate()
 {
     queue <int> Q;
 	int x,y,i,
-	    tot=0;
+	    tot = 0;
 	float thrs;
 	
 	memset(visit,0,sizeof(visit));
 	memset(nb,0,sizeof(nb));
-	for (i = 0; i < topk; i++){
+	for (i = 0; i < K; i++){
 	    Q.push(seed[i]);
 	    visit[seed[i]] = 1;
 	    tot++;
@@ -54,7 +55,7 @@ int Simulate(int topk)
 	while (!Q.empty()){
 		x = Q.front();
 		Q.pop();
-		for (i = firstedge[x];i != 0; i = E[i].next){
+		for (i = firstedge[x]; i != 0; i = E[i].next){
 			y = E[i].v;
 			nb[y]++;
 			thrs = (float)nb[y]/deg[y];
@@ -72,10 +73,10 @@ int main()
 {
 	int x,y,
 	    tot = 0,
-	    maxd,maxj,totnum;
-
+	    maxd,maxj,
+	    totnum = 0;
 	fp = fopen("NetPhy.txt","r");
-	fout = fopen("PhyoutGR.txt","w");
+	fout = fopen("PhyoutRD.txt","w");
     srand(time(NULL));
     
     time_t start,end;
@@ -98,42 +99,25 @@ int main()
 	}
 	fclose(fp);
 	
-	memset(choose,0,sizeof(choose));
 	for (int i = 1; i <= TOPK; i++){
-		maxd = 0; 
-		for (int j = 0; j<n; j++)
-		    if (!choose[j]){
-		        seed[i-1] = j;
-		        totnum = 0;
-		        for (int u = 1; u <= T; u++){
-		            GenerateThreshold();
-		            totnum += Simulate(i);
-	            }
-	            if (totnum >= maxd){
-	            	maxd = totnum;
-	            	maxj = j;
-	            }
-		    }
-		choose[maxj] = 1;
-		seed[i-1] = maxj;
-		printf("%d %d\n",maxj,maxd/T);
+		seed[i-1] = (int)((float)rand()/RAND_MAX*n);
+		//printf("%d %d\n",maxj,maxd);
 	}
 	
 	end = clock();
-    fprintf(fout,"%lfs\n",double(end-start)/CLOCKS_PER_SEC); 
+    fprintf(fout,"%lfs\n",double(end-start)/CLOCKS_PER_SEC);   
 	
 	for (K = 0; K <= TOPK; K++){
-		totnum=0;
+		totnum = 0;
 		for (int i = 1; i <= T; i++){
 			GenerateThreshold();
-			totnum += Simulate(K);
+			totnum += Simulate();
 			//cout<<totnum<<endl;
 		}
-		fprintf(fout,"%d %d %d\n",K,seed[K-1],(int)totnum/T);
-	}  
+		fprintf(fout,"%d %d %d\n",K,seed[K-1],totnum/T);
+	}
     
     fclose(fout);
 	return 0;
 }
-
 
