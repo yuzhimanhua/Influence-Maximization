@@ -8,8 +8,8 @@
 #include <math.h>
 using namespace std;
 
-#define NODE 40000
-#define EDGE 500000
+#define NODE 20000
+#define EDGE 100000
 #define TOPK 20
 #define T    10000
 
@@ -75,8 +75,8 @@ int main()
 	    tot = 0,
 	    maxd,maxj,totnum;
 
-	fp = fopen("NetPhy.txt","r");
-	fout = fopen("PhyoutDG.txt","w");
+	fp = fopen("../Data/GrQc.txt","r");
+	fout = fopen("GrQcout.txt","w");
     srand(time(NULL));
     
     time_t start,end;

@@ -8,8 +8,8 @@
 //#include <windows.h>
 using namespace std;
 
-#define NODE 40000
-#define EDGE 500000
+#define NODE 20000
+#define EDGE 100000
 #define TOPK 20
 #define T    10000
 
@@ -105,8 +105,8 @@ int main()
 	double maxd = 0,
 	       totnum = 0;
 
-	fp = fopen("GrQc.txt","r");
-	fout = fopen("GrQcoutPR2.txt","w");
+	fp = fopen("../Data/GrQc.txt","r");
+	fout = fopen("GrQcout.txt","w");
     srand(time(NULL));
     
     time_t start,end;

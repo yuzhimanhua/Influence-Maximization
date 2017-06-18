@@ -8,10 +8,10 @@
 //#include <windows.h>
 using namespace std;
 
-#define NODE 16000
-#define EDGE 130000
+#define NODE 20000
+#define EDGE 100000
 #define TOPK 20
-#define T    10
+#define T    10000
 
 FILE* fp;
 FILE* fout;
@@ -86,8 +86,8 @@ int main()
 	    tot = 0;
 	float maxd,
 	      totnum = 0;
-	fp = fopen("NetHept.txt","r");
-	fout = fopen("HeptoutLF.txt","w");
+	fp = fopen("../Data/GrQc.txt","r");
+	fout = fopen("GrQcout.txt","w");
     srand(time(NULL));
     
     time_t start,end;
