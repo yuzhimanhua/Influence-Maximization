@@ -10,7 +10,7 @@ using namespace std;
 
 #define NODE 20000
 #define EDGE 100000
-#define TOPK 20
+#define MAXK 200
 #define T    10000
 
 FILE* fp;
@@ -25,10 +25,12 @@ edge E[EDGE];
 int firstedge[NODE] = {0},
     deg[NODE] = {0},
     deg1[NODE] = {0},
-    seed[TOPK] = {0},
+    seed[MAXK] = {0},
     nb[NODE] = {0};
 bool visit[NODE] = {0};
-int n, m, K;
+int n, m, K,
+    TOPK = 20, 
+    DIR = 0;
 float delta[NODE] = {0};
 
 void GenerateThreshold()
@@ -69,15 +71,23 @@ int Simulate()
 	return tot;
 }
 
-int main()
+int main(int argc, char* argv[])
 {
 	int x,y,
 	    tot = 0,
-	    maxd,maxj,
-	    totnum = 0;
-	fp = fopen("../Data/GrQc.txt","r");
-	fout = fopen("GrQcout.txt","w");
+	    maxd,maxj,totnum;
+
+	fp = fopen(argv[1], "r");
+	fout = fopen(argv[2], "w");
     srand(time(NULL));
+
+    if (argc >= 4){
+        TOPK = atoi(argv[3]); 
+    }
+
+    if (argc >= 5 && argv[4] == "Directed"){
+    	DIR = 1;
+    }
     
     time_t start,end;
 	start = clock();
@@ -91,16 +101,26 @@ int main()
 		E[tot].next = firstedge[x];
 		firstedge[x] = tot;
 		deg[x]++;
-		//tot++;
-		//E[tot].v = x;
-		//E[tot].next = firstedge[y];
-		//firstedge[y] = tot;
-		//deg[y]++;
+		if (DIR == 0){
+			tot++;
+			E[tot].v = x;
+			E[tot].next = firstedge[y];
+			firstedge[y] = tot;
+			deg[y]++;
+		}
 	}
 	fclose(fp);
 	
+	for (int i = 0; i < n; i++) deg1[i] = deg[i];
 	for (int i = 1; i <= TOPK; i++){
-		seed[i-1] = (int)((float)rand()/RAND_MAX*n);
+		maxd = 0; 
+		for (int j = 0; j < n; j++)
+		    if (deg1[j] >= maxd){
+		    	maxd = deg1[j];
+		    	maxj = j;
+		    }
+		deg1[maxj] = 0;
+		seed[i-1] = maxj;
 		//printf("%d %d\n",maxj,maxd);
 	}
 	
@@ -113,7 +133,7 @@ int main()
 			GenerateThreshold();
 			totnum += Simulate();
 			//cout<<totnum<<endl;
-		}
+		}	
 		fprintf(fout,"%d %d %d\n",K,seed[K-1],totnum/T);
 	}
     
