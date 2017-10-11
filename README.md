@@ -6,7 +6,7 @@ Full version: [sigir17full.pdf](sigir17full.pdf)
 To run our code, please type the following commands:
 ```
 g++ [Algorithms.cpp] -o [Algorithms]
-./[Algorithms] [Input file] [Output File] [Top-K, optional, default=20] [Directed or Undirected, optional, default = Undir]
+./[Algorithms] [Input file] [Output File] [Top-K, optional, default=20] [Directed or Undirected Graph, optional, default = Undir]
 ```
 For example,
 ```
