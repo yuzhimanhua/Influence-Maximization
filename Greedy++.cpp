@@ -138,7 +138,7 @@ int main(int argc, char* argv[])
         TOPK = atoi(argv[3]); 
     }
 
-    if (argc >= 5 && argv[4] == "Directed"){
+    if (argc >= 5 && argv[4][0] == 'D'){
     	DIR = 1;
     }
     
