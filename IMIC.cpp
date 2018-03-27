@@ -18,6 +18,7 @@ FILE* fout;
 struct edge
 {
 	int v, next;
+	int edgesample[SNAP];
 };
 edge E[EDGE];
 
@@ -25,13 +26,11 @@ int firstedge[NODE] = {0},
     deg[NODE] = {0},
     degin[NODE] = {0},
     choose[NODE] = {0},
-    seed[MAXK] = {0},
-    nb[NODE] = {0};
+    seed[MAXK] = {0};
 bool visit[NODE] = {0};
 int n, m, K,
     TOPK = 20, 
     DIR = 0;
-float delta[NODE][SNAP] = {0};
 float marg[NODE] = {0};
 
 struct myless
@@ -43,11 +42,18 @@ struct myless
 bool cur[NODE];
 priority_queue <int, vector<int>, myless> PQ;
 
-void GenerateThreshold()
+void GenerateSNAP()
 {
-    for (int i = 0; i < n; i++){
-        for (int j = 0; j < SNAP; j++){
-            delta[i][j] = (float)rand()/RAND_MAX;
+    for (int x = 0; x < n; x++){
+    	for (int i = firstedge[x]; i != 0; i = E[i].next){
+    		int y = E[i].v;
+        	for (int k = 0; k < SNAP; k++){
+        		float prob = (float)rand()/RAND_MAX;
+        		if (prob < 1.0/degin[y])
+            		E[i].edgesample[k] = 1;
+            	else
+            		E[i].edgesample[k] = 0;
+        	}
         }
     }
 }
@@ -60,7 +66,6 @@ int Simulate(int snapno,int topk)
 	float thrs;
 	
 	memset(visit,0,sizeof(visit));
-	memset(nb,0,sizeof(nb));
 	for (i = 0; i < topk; i++){
 	    Q.push(seed[i]);
 	    visit[seed[i]] = 1;
@@ -71,9 +76,7 @@ int Simulate(int snapno,int topk)
 		Q.pop();
 		for (i = firstedge[x]; i != 0; i = E[i].next){
 			y = E[i].v;
-			nb[y]++;
-			thrs = (float)nb[y]/degin[y];
-			if (thrs >= delta[y][snapno] && !visit[y]){
+			if (E[i].edgesample[snapno] == 1 && !visit[y]){
 				Q.push(y);
 				visit[y] = 1;
 				tot++;
@@ -121,7 +124,7 @@ int main(int argc, char* argv[])
 	}
 	fclose(fp);
 	
-	GenerateThreshold(); //for Snapshot
+	GenerateSNAP(); //for Snapshot
 	
 	memset(choose,0,sizeof(choose));
 	
