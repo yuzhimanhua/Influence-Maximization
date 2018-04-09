@@ -3,6 +3,7 @@
 #include <cstring>
 #include <time.h>
 #include <stdlib.h>
+#include <math.h>
 #include <iostream>
 //#include <windows.h>
 using namespace std;
@@ -47,7 +48,15 @@ void GenerateThreshold()
 {
     for (int i = 0; i < n; i++){
         for (int j = 0; j < SNAP; j++){
-            delta[i][j] = (float)rand()/RAND_MAX;
+        	float dt = (float)rand()/RAND_MAX;
+        	/*Linear Threshold*/
+            delta[i][j] = dt;
+            /*Concave Threshold*/
+            //delta[i][j] = dt*dt;
+            /*Convex Threshold*/
+            //delta[i][j] = sqrt(dt);
+            /*Majority Vote*/
+            //delta[i][j] = 0.5;
         }
     }
 }
