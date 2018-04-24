@@ -2,7 +2,7 @@
 This is the implementation of Greedy++ [Zhang and Zhang, 2017].     
 Full version: [sigir17full.pdf](sigir17full.pdf)
 
-# Code
+## Code
 To run our code, please type the following commands:
 ```
 g++ Greedy++.cpp -o Greedy++
@@ -33,7 +33,7 @@ g++ Calc_Inf.cpp -o Calc_Inf
 ./Calc_Inf data/Epinions.txt out.txt  5  D
 ```
 
-# Citation
+## Citation
 ```
 @inproceedings{zhang2017top,
   title={Top-K Influential Nodes in Social Networks: A Game Perspective},
