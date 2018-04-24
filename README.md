@@ -32,3 +32,15 @@ For example,
 g++ Calc_Inf.cpp -o Calc_Inf
 ./Calc_Inf data/Epinions.txt out.txt  5  D
 ```
+
+# Citation
+```
+@inproceedings{zhang2017top,
+  title={Top-K Influential Nodes in Social Networks: A Game Perspective},
+  author={Zhang, Yu and Zhang, Yan},
+  booktitle={Proceedings of the 40th International ACM SIGIR Conference on Research and Development in Information Retrieval},
+  pages={1029--1032},
+  year={2017},
+  organization={ACM}
+}
+```
