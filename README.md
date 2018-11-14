@@ -1,5 +1,5 @@
 # Top-K Influential Nodes in Social Networks: A Game Perspective
-This is the implementation of Greedy++ [Zhang and Zhang, 2017].     
+This is the implementation of [Top-K Influential Nodes in Social Networks: A Game Perspective](https://dl.acm.org/citation.cfm?id=3080709).     
 Full version: [sigir17full.pdf](sigir17full.pdf)
 
 ## Code
