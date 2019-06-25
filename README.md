@@ -1,6 +1,8 @@
 # Top-K Influential Nodes in Social Networks: A Game Perspective
-This is the implementation of [Top-K Influential Nodes in Social Networks: A Game Perspective](https://dl.acm.org/citation.cfm?id=3080709).     
-Full version: [sigir17full.pdf](sigir17full.pdf)
+This is the implementation of [Top-K Influential Nodes in Social Networks: A Game Perspective](https://dl.acm.org/citation.cfm?id=3080709).
+
+## Full Version
+The full version of our paper is available at [**arXiv**](https://arxiv.org/abs/1810.05959v5).
 
 ## Code
 To run our code, please type the following commands:
