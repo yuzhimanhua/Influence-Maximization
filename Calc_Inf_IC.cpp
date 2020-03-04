@@ -18,7 +18,7 @@ FILE* fs;
 
 struct edge
 {
-	int v, next;
+    int v, next;
 };
 edge E[EDGE];
 
@@ -35,88 +35,88 @@ float delta[NODE] = {0};
 int Simulate(int topk)
 {
     queue <int> Q;
-	int x,y,i,
-	    tot = 0;
-	float prob;
-	
-	memset(visit,0,sizeof(visit));
-	for (i = 0; i < topk; i++){
-	    Q.push(seed[i]);
-	    visit[seed[i]] = 1;
-	    tot++;
-	}
-	while (!Q.empty()){
-		x = Q.front();
-		Q.pop();
-		for (i = firstedge[x]; i != 0; i = E[i].next){
-			y = E[i].v;
-			prob = (float)rand()/RAND_MAX;
-			if (prob < (float)1/degin[y] && !visit[y]){
-				Q.push(y);
-				visit[y] = 1;
-				tot++;
-			}
-		}
-	}
-	return tot;
+    int x,y,i,
+        tot = 0;
+    float prob;
+    
+    memset(visit,0,sizeof(visit));
+    for (i = 0; i < topk; i++){
+        Q.push(seed[i]);
+        visit[seed[i]] = 1;
+        tot++;
+    }
+    while (!Q.empty()){
+        x = Q.front();
+        Q.pop();
+        for (i = firstedge[x]; i != 0; i = E[i].next){
+            y = E[i].v;
+            prob = (float)rand()/RAND_MAX;
+            if (prob < (float)1/degin[y] && !visit[y]){
+                Q.push(y);
+                visit[y] = 1;
+                tot++;
+            }
+        }
+    }
+    return tot;
 }
 
 int main(int argc, char* argv[])
 {
-	int x, y,
-	    tot = 0;
-	float z,
-	      totnum = 0;
-	fp = fopen(argv[1], "r");
-	fs = fopen(argv[2], "r");
+    int x, y,
+        tot = 0;
+    float z,
+          totnum = 0;
+    fp = fopen(argv[1], "r");
+    fs = fopen(argv[2], "r");
     srand(time(NULL));
-	
-	if (argc >= 4){
+    
+    if (argc >= 4){
         TOPK = atoi(argv[3]); 
     }
 
     if (argc >= 5 && argv[4][0] == 'D'){
-    	DIR = 1;
+        DIR = 1;
     }
     
     time_t start,end;
-	start = clock();
-	
-	fscanf(fp, "%d %d", &n, &m);
-	for (int i = 0; i < m; i++){
-	    fscanf(fp, "%d %d", &x, &y);
-	    tot++; 
-		E[tot].v = y;
-		E[tot].next = firstedge[x];
-		firstedge[x] = tot;
-		deg[x]++;
-		degin[y]++;
-		if (DIR == 0){
-			tot++;
-			E[tot].v = x;
-			E[tot].next = firstedge[y];
-			firstedge[y] = tot;
-			deg[y]++;
-			degin[x]++;
-		}
-	}
-	fclose(fp);
+    start = clock();
+    
+    fscanf(fp, "%d %d", &n, &m);
+    for (int i = 0; i < m; i++){
+        fscanf(fp, "%d %d", &x, &y);
+        tot++; 
+        E[tot].v = y;
+        E[tot].next = firstedge[x];
+        firstedge[x] = tot;
+        deg[x]++;
+        degin[y]++;
+        if (DIR == 0){
+            tot++;
+            E[tot].v = x;
+            E[tot].next = firstedge[y];
+            firstedge[y] = tot;
+            deg[y]++;
+            degin[x]++;
+        }
+    }
+    fclose(fp);
 
-	for (int i = 0; i < TOPK; i++){
-		fscanf(fs, "%d %f", &x, &z);
-		seed[i] = x;
-	}
-	fclose(fs);
-	
-	for (int i = 1; i <= T; i++){
-		totnum += Simulate(TOPK);
-		//cout<<totnum<<endl;
-	}
-	printf("Expected Influence: %d\n", (int)totnum/T);
+    for (int i = 0; i < TOPK; i++){
+        fscanf(fs, "%d %f", &x, &z);
+        seed[i] = x;
+    }
+    fclose(fs);
+    
+    for (int i = 1; i <= T; i++){
+        totnum += Simulate(TOPK);
+        //cout<<totnum<<endl;
+    }
+    printf("Expected Influence: %d\n", (int)totnum/T);
 
-	end = clock();
+    end = clock();
     printf("%lfs\n", double(end-start)/CLOCKS_PER_SEC); 
 
-	return 0;
+    return 0;
 }
 
