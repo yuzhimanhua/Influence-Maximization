@@ -2,7 +2,7 @@
 This is the implementation of [Top-K Influential Nodes in Social Networks: A Game Perspective](https://dl.acm.org/citation.cfm?id=3080709).
 
 ## Full Version
-The full version of our paper can be found [**here**](https://yuzhimanhua.github.io/papers/sigir17full.pdf).
+The full version of our paper can be found [**here**](https://yuzhimanhua.github.io/papers/sigir17.pdf).
 
 ## Code
 To run our code, please type the following commands:
