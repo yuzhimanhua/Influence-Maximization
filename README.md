@@ -41,7 +41,7 @@ g++ Calc_Inf.cpp -o Calc_Inf
 @inproceedings{zhang2017top,
   title={Top-K Influential Nodes in Social Networks: A Game Perspective},
   author={Zhang, Yu and Zhang, Yan},
-  booktitle={Proceedings of the 40th International ACM SIGIR Conference on Research and Development in Information Retrieval},
+  booktitle={SIGIR'17},
   pages={1029--1032},
   year={2017},
   organization={ACM}
