@@ -1,5 +1,7 @@
 # Top-K Influential Nodes in Social Networks: A Game Perspective
 
+[![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+
 This repository contains the source code for [**Top-K Influential Nodes in Social Networks: A Game Perspective**](https://arxiv.org/pdf/1810.05959.pdf).
 
 ## Full Version
