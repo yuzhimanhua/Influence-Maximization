@@ -39,6 +39,7 @@ g++ Calc_Inf.cpp -o Calc_Inf
 ```
 
 ## Citation
+If you find this repository useful, please cite the following paper:
 ```
 @inproceedings{zhang2017top,
   title={Top-K Influential Nodes in Social Networks: A Game Perspective},
