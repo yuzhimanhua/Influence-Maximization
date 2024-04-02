@@ -46,7 +46,6 @@ If you find this repository useful, please cite the following paper:
   author={Zhang, Yu and Zhang, Yan},
   booktitle={SIGIR'17},
   pages={1029--1032},
-  year={2017},
-  organization={ACM}
+  year={2017}
 }
 ```
